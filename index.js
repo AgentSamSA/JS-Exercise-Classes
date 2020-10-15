@@ -47,9 +47,7 @@ class Person {
     this.stomach = [];
   }
   eat(someFood) {
-    if (this.stomach.length < 10) {
-      this.stomach.push(someFood);
-    }
+    this.stomach.length < 10 ? this.stomach.push(someFood) : "I'm too full!";
   }
   poop() {
     return this.stomach.splice(0, this.stomach.length);
@@ -84,13 +82,14 @@ class Car {
     this.tank += gallons;
   }
   drive(distance) {
-    if (this.tank < distance/this.milesPerGallon) {
+    let gallonsUsed = distance / this.milesPerGallon;
+    if (this.tank < gallonsUsed) {
       this.odometer += this.tank * this.milesPerGallon;
       this.tank -= this.tank;
       return `I ran out of fuel at ${this.odometer} miles!`;
     }
     this.odometer += distance;
-    this.tank -= distance / this.milesPerGallon;
+    this.tank -= gallonsUsed;
   }
 }
 
@@ -144,6 +143,12 @@ class Instructor extends Lambdasian {
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`;
   }
+  calcPoints(student) {
+    let pointChange = Math.ceil(Math.random() * 100);
+    let giveOrTake = Math.random() < 0.5 ? -1 : 1;
+    pointChange = pointChange * giveOrTake;
+    student.grade + pointChange <= 100 || student.grade + pointChange ? student.grade += pointChange : student.grade;
+  }
 }
 
 /*
@@ -167,6 +172,8 @@ class Student extends Lambdasian{
     this.previousBackground = studentObj.previousBackground;
     this.className = studentObj.className;
     this.favSubjects = studentObj.favSubjects;
+    this.grade = Math.ceil(Math.random() * 100);
+    this.graduated = studentObj.graduated;
   }
   listSubjects() {
     return `Loving ${this.favSubjects.join(", ")}!`;
@@ -175,7 +182,10 @@ class Student extends Lambdasian{
     return `${this.name} has submitted a PR for ${subject}`;
   }
   sprintChallenge(subject) {
-    `${this.name} has begun sprint challenge on ${subject}`;
+    return `${this.name} has begun sprint challenge on ${subject}`;
+  }
+  graduate() {
+    this.grade > 70 ? this.graduated === true + "Congrats! You can graduate!" : this.graduated === false + "Keep studying!";
   }
 }
 
@@ -202,7 +212,7 @@ class ProjectManager extends Instructor{
      return `${this.name} announces to ${channel}, @${channel} standy times!`;
    }
    debugsCode(student, subject) {
-     `${this.name} debugs ${student.name}'s code on ${subject}`;
+     return `${this.name} debugs ${student.name}'s code on ${subject}`;
    }
 }
 
